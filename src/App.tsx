@@ -1,11 +1,13 @@
-import jsonData from './data/characters.json'
-import type { Character } from './types'
-const data: Character[] = jsonData as Character[]
+import "antd/dist/antd.min.css";
+import Characters from './components/Characters'
+import Navbar from './components/Navbar'
+
 
 function App() {
   return (
     <div className="App">
-      hi
+      {/* <Navbar /> */}
+      <Characters />
     </div>
   )
 }
