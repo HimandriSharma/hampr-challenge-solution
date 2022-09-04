@@ -11,7 +11,7 @@ const Navbar = () => {
           position: "fixed",
           top: "0",
           width: "100%",
-          height: "5rem",
+          height: "3rem",
           backgroundColor: "black",
           zIndex: "1",
           display: "flex",
@@ -19,7 +19,7 @@ const Navbar = () => {
           justifyContent: "center",
         }}
       >
-        <img src={Logo} alt="Rick and Morty header logo" />
+        <img src={Logo} alt="Rick and Morty header logo" style={{height:"5rem"}}/>
       </Header>
     </Layout>
   );

@@ -9,38 +9,46 @@ import {
 	Tag,
 	Tooltip,
 } from "antd";
-import { useEffect, useState } from "react";
+import {
+	JSXElementConstructor,
+	ReactElement,
+	ReactFragment,
+	useEffect,
+	useState,
+} from "react";
 import { v4 as uuid } from "uuid";
 import jsonData from "../data/characters.json";
 import type { Character, CharacterTag } from "../types";
+import "../App.css";
+import { SearchOutlined } from "@ant-design/icons";
 const data: Character[] = jsonData as Character[];
 
 const { CheckableTag } = Tag;
 
 const Characters = () => {
 	const tagsData = [
-		"Monster",
-		"Melee",
-		"Human",
-		"Ninja",
-		"Agile",
+		"monster",
+		"melee",
+		"human",
+		"ninja",
+		"agile",
 		"God",
-		"Aerial",
-		"Strong",
-		"Grappling",
-		"Defend",
-		"Attack",
-		"Block",
-		"Mercenary",
-		"Demon",
-		"Robot",
-		"Magic",
-		"Ranged",
-		"Alien",
-		"Ghost",
-		"Grapple",
-		"Animal",
-		"My Team",
+		"aerial",
+		"strong",
+		"grappling",
+		"defend",
+		"attack",
+		"block",
+		"mercenary",
+		"demon",
+		"robot",
+		"magic",
+		"ranged",
+		"alien",
+		"ghost",
+		"grapple",
+		"animal",
+		"my team",
 	];
 
 	const datasource = data.map((row) => ({
@@ -73,7 +81,7 @@ const Characters = () => {
 			setSearchedArray(datasource);
 		} else {
 			const searchedObjects: any[] = [];
-			datasource.forEach((singleDataObject, index) => {
+			datasource.forEach((singleDataObject) => {
 				Object.values(singleDataObject).every((onlyValues: any) => {
 					if (onlyValues.toLowerCase().includes(searchString.toLowerCase())) {
 						searchedObjects.push(singleDataObject);
@@ -103,7 +111,8 @@ const Characters = () => {
 				power: Math.round((power / selectedRow.length) * 100) / 100,
 				mobility: Math.round((mobility / selectedRow.length) * 100) / 100,
 				technique: Math.round((technique / selectedRow.length) * 100) / 100,
-				survivability: Math.round((survivability / selectedRow.length) * 100) / 100,
+				survivability:
+					Math.round((survivability / selectedRow.length) * 100) / 100,
 				energy: Math.round((energy / selectedRow.length) * 100) / 100,
 			});
 		} else if (selectedRow.length === 0) {
@@ -119,25 +128,32 @@ const Characters = () => {
 		}
 	}, [selectedRow]);
 
-	// useEffect(() => {
-	// 	const taggedObjs: any = [];
-	// 	datasource.forEach((singleDataObject) => {
-	// 		const filteredArray = (array1: any, array2: any) => {
-	// 			return array1.filter((value: any) => array2.includes(value));
-	// 		};
-	// 		if (selectedTags.length > 1) {
-	// 			Object.values(singleDataObject).every(() => {
-	// 				const taggs: any = [];
-	// 				singleDataObject.tags.map((val) => taggs.push(val.tag_name));
-	// 				console.log(filteredArray(taggs, selectedTags));
-	// 				// .length>0?taggedObjs.push(singleDataObject):""
-	// 			});
-	// 			setSearchedArray(taggedObjs);
-	// 		}
-	// 	});
-	// }, [selectedTags]);
+	useEffect(() => {
+		const taggedObjs: any = [];
+		datasource.forEach((singleDataObject) => {
+			if (selectedTags.length > 1) {
+				Object.values(singleDataObject).every(() => {
+					let filtered = singleDataObject.tags?.filter((val) => {
+						return selectedTags.indexOf(val.tag_name) !== -1;
+					});
+					if (filtered?.length > 0) {
+						taggedObjs.push(singleDataObject);
+					}
+				});
+				setSearchedArray(taggedObjs);
+			}
+		});
+	}, [selectedTags]);
 
 	const columns = [
+		{
+			// title: "",
+			dataIndex: "avatar",
+			key: uuid(),
+			render: (a: any) => {
+				return <Avatar size={34} src={a}  style={{border:"solid 1px #217AFF"}}/>;
+			},
+		},
 		{
 			title: "Character",
 			dataIndex: "name",
@@ -151,64 +167,124 @@ const Characters = () => {
 				return (
 					tags &&
 					tags.map((tag: any) => (
-						<Tag color="blue" key={uuid()}>
+						<Tag
+							color="blue"
+							key={uuid()}
+							style={{ borderRadius: "20px", fontSize: "14px" }}
+						>
 							{tag.tag_name}
 						</Tag>
 					))
 				);
 			},
+			width: "100%",
 		},
 		{
 			title: "Power",
 			dataIndex: "power",
 			key: uuid(),
+			render: (
+				power:
+					| string
+					| number
+					| boolean
+					| ReactElement<any, string | JSXElementConstructor<any>>
+					| ReactFragment
+					| null
+					| undefined
+			) => {
+				return power === 10 ? (
+					<div style={{ color: "red" }}>{power}</div>
+				) : (
+					power
+				);
+			},
 		},
 		{
 			title: "Mobility",
 			dataIndex: "mobility",
 			key: uuid(),
+			render: (
+				mobility:
+					| string
+					| number
+					| boolean
+					| ReactElement<any, string | JSXElementConstructor<any>>
+					| ReactFragment
+					| null
+					| undefined
+			) => {
+				return mobility === 10 ? (
+					<div style={{ color: "red" }}>{mobility}</div>
+				) : (
+					mobility
+				);
+			},
 		},
 		{
 			title: "Technique",
 			dataIndex: "technique",
 			key: uuid(),
+			render: (
+				technique:
+					| string
+					| number
+					| boolean
+					| ReactElement<any, string | JSXElementConstructor<any>>
+					| ReactFragment
+					| null
+					| undefined
+			) => {
+				return technique === 10 ? (
+					<div style={{ color: "red" }}>{technique}</div>
+				) : (
+					technique
+				);
+			},
 		},
 		{
 			title: "Survivability",
 			dataIndex: "survivability",
 			key: uuid(),
+			render: (
+				survivability:
+					| string
+					| number
+					| boolean
+					| ReactElement<any, string | JSXElementConstructor<any>>
+					| ReactFragment
+					| null
+					| undefined
+			) => {
+				return survivability === 10 ? (
+					<div style={{ color: "red" }}>{survivability}</div>
+				) : (
+					survivability
+				);
+			},
 		},
 		{
 			title: "Energy",
 			dataIndex: "energy",
 			key: uuid(),
+			render: (
+				energy:
+					| string
+					| number
+					| boolean
+					| ReactElement<any, string | JSXElementConstructor<any>>
+					| ReactFragment
+					| null
+					| undefined
+			) => {
+				return energy === 10 ? (
+					<div style={{ color: "red" }}>{energy}</div>
+				) : (
+					energy
+				);
+			},
 		},
 	];
-	// const handleResults = () => {
-	// 	if (selectedRow.length >= 1 && selectedRow.length <= 6) {
-	// 		let power = 0;
-	// 		let mobility = 0;
-	// 		let technique = 0;
-	// 		let survivability = 0;
-	// 		let energy = 0;
-	// 		selectedRow.map((val: any) => {
-	// 			power += val.power;
-	// 			mobility += val.mobility;
-	// 			technique += val.technique;
-	// 			survivability += val.survivability;
-	// 			energy += val.energy;
-	// 		});
-	// 		setAvg({
-	// 			power: power / selectedRow.length,
-	// 			mobility: mobility / selectedRow.length,
-	// 			technique: technique / selectedRow.length,
-	// 			survivability: survivability / selectedRow.length,
-	// 			energy: energy / selectedRow.length,
-	// 		});
-	// 	} else {
-	// 		console.log("Please select less than or equal to 6 characters");
-	// 	}
-	// };
 
 	const handleChange = (tag: string, checked: any) => {
 		const nextSelectedTags = checked
@@ -224,6 +300,7 @@ const Characters = () => {
 
 	const rowSelection = {
 		hideSelectAll: true,
+		preserveSelectedRowKeys: true,
 		selectedRowKeys: selectedRowKeys,
 		onChange: onSelectChange,
 		getCheckboxProps: () => ({
@@ -243,25 +320,32 @@ const Characters = () => {
 	};
 
 	return (
-		<>
-			{avg.power !== -1 &&
-				selectedRow.map((v: any, idx) => {
-					return (
-						idx < 6 && (
-							<Tooltip title="Remove" key={v.key}>
-								<Avatar
-									size={64}
-									src={v.avatar}
-									onClick={() => handleRemove(v.key)}
-								/>
-							</Tooltip>
-						)
-					);
-				})}
+		<span
+			style={{
+				marginTop: "6rem",
+			}}
+		>
+			<div>
+				{avg.power !== -1 &&
+					selectedRow.map((v: any, idx) => {
+						return (
+							idx < 6 && (
+								<Tooltip title="Remove" key={v.key}>
+									<Avatar
+										size={74}
+										src={v.avatar}
+										onClick={() => handleRemove(v.key)}
+                    style={{border:"solid 1px #217AFF"}}
+									/>
+								</Tooltip>
+							)
+						);
+					})}
+			</div>
 			<h2>
 				{avg.power === -1
 					? "Select the squad to defend earthrealm"
-					: "Your champions!!"}
+					: "Your champions!"}
 			</h2>
 			<Row gutter={16}>
 				<Col span={4}>
@@ -300,24 +384,42 @@ const Characters = () => {
 				type="text"
 				value={searchString}
 				onChange={(e) => setSearchString(e.target.value)}
-				placeholder="search here.."
+				placeholder="search by name here.."
+				prefix={<SearchOutlined />}
+				style={{ width: "30%", borderRadius: "5px",scale:"1.2",margin:"20px" }}
 			/>
-			{tagsData.map((tag) => (
-				<CheckableTag
-					key={tag}
-					checked={selectedTags.indexOf(tag) > -1}
-					onChange={(checked) => handleChange(tag, checked)}
+			<div style={{ padding: "20px" }}>
+				{tagsData.map((tag) => (
+					<CheckableTag
+						key={tag}
+						checked={selectedTags.indexOf(tag) > -1}
+						onChange={(checked) => handleChange(tag, checked)}
+						style={{
+							fontSize: "16px",
+							border: "solid",
+							borderRadius: "15px",
+						}}
+					>
+						{tag}
+					</CheckableTag>
+				))}
+				<Button
+					onClick={() => {
+						setSelectedTags([""]);
+						setSearchedArray(datasource);
+					}}
+					style={{ border: "none" }}
 				>
-					{tag}
-				</CheckableTag>
-			))}
-			<Button onClick={() => setSelectedTags([])}>Clear all</Button>
+					<u>Clear all</u>
+				</Button>
+			</div>
+
 			<Table
 				rowSelection={rowSelection}
 				columns={columns}
 				dataSource={searchedArray}
 			/>
-		</>
+		</span>
 	);
 };
 
