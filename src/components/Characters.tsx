@@ -18,7 +18,7 @@ import {
 } from "react";
 import { v4 as uuid } from "uuid";
 import jsonData from "../data/characters.json";
-import type { Character, CharacterTag } from "../types";
+import type { Character, CharacterAbility, CharacterTag } from "../types";
 import "../App.css";
 import { SearchOutlined } from "@ant-design/icons";
 const data: Character[] = jsonData as Character[];
@@ -32,7 +32,7 @@ const Characters = () => {
 		"human",
 		"ninja",
 		"agile",
-		"God",
+		"god",
 		"aerial",
 		"strong",
 		"grappling",
@@ -130,11 +130,19 @@ const Characters = () => {
 
 	useEffect(() => {
 		const taggedObjs: any = [];
+		if (selectedTags.includes("my team")) {
+			setSearchedArray(selectedRow);
+		}
+
 		datasource.forEach((singleDataObject) => {
 			if (selectedTags.length > 1) {
 				Object.values(singleDataObject).every(() => {
 					let filtered = singleDataObject.tags?.filter((val) => {
-						return selectedTags.indexOf(val.tag_name) !== -1;
+						return (
+							(selectedTags.includes("my team") &&
+								selectedRowKeys.includes(singleDataObject.key)) ||
+							selectedTags.indexOf(val.tag_name) !== -1
+						);
 					});
 					if (filtered?.length > 0) {
 						taggedObjs.push(singleDataObject);
@@ -147,11 +155,10 @@ const Characters = () => {
 
 	const columns = [
 		{
-			// title: "",
 			dataIndex: "avatar",
 			key: uuid(),
 			render: (a: any) => {
-				return <Avatar size={34} src={a}  style={{border:"solid 1px #217AFF"}}/>;
+				return <Avatar size={34} src={a} className="avatar-style" />;
 			},
 		},
 		{
@@ -167,17 +174,12 @@ const Characters = () => {
 				return (
 					tags &&
 					tags.map((tag: any) => (
-						<Tag
-							color="blue"
-							key={uuid()}
-							style={{ borderRadius: "20px", fontSize: "14px" }}
-						>
+						<Tag color="blue" key={uuid()} className="table-tags">
 							{tag.tag_name}
 						</Tag>
 					))
 				);
 			},
-			width: "100%",
 		},
 		{
 			title: "Power",
@@ -194,7 +196,7 @@ const Characters = () => {
 					| undefined
 			) => {
 				return power === 10 ? (
-					<div style={{ color: "red" }}>{power}</div>
+					<div className="text-red">{power}</div>
 				) : (
 					power
 				);
@@ -215,7 +217,7 @@ const Characters = () => {
 					| undefined
 			) => {
 				return mobility === 10 ? (
-					<div style={{ color: "red" }}>{mobility}</div>
+					<div className="text-red">{mobility}</div>
 				) : (
 					mobility
 				);
@@ -236,7 +238,7 @@ const Characters = () => {
 					| undefined
 			) => {
 				return technique === 10 ? (
-					<div style={{ color: "red" }}>{technique}</div>
+					<div className="text-red">{technique}</div>
 				) : (
 					technique
 				);
@@ -257,7 +259,7 @@ const Characters = () => {
 					| undefined
 			) => {
 				return survivability === 10 ? (
-					<div style={{ color: "red" }}>{survivability}</div>
+					<div className="text-red">{survivability}</div>
 				) : (
 					survivability
 				);
@@ -278,7 +280,7 @@ const Characters = () => {
 					| undefined
 			) => {
 				return energy === 10 ? (
-					<div style={{ color: "red" }}>{energy}</div>
+					<div className="text-red">{energy}</div>
 				) : (
 					energy
 				);
@@ -286,10 +288,11 @@ const Characters = () => {
 		},
 	];
 
-	const handleChange = (tag: string, checked: any) => {
+	const handleChange = (tag: string, checked: boolean) => {
 		const nextSelectedTags = checked
 			? [...selectedTags, tag]
 			: selectedTags.filter((t) => t !== tag);
+		nextSelectedTags.length <= 1 && setSearchedArray(datasource);
 		setSelectedTags(nextSelectedTags);
 	};
 
@@ -308,7 +311,7 @@ const Characters = () => {
 		}),
 	};
 
-	const handleRemove = (key: any) => {
+	const handleRemove = (key: string) => {
 		let temp = selectedRow.filter(function (obj: any) {
 			return obj.key !== key;
 		});
@@ -335,7 +338,7 @@ const Characters = () => {
 										size={74}
 										src={v.avatar}
 										onClick={() => handleRemove(v.key)}
-                    style={{border:"solid 1px #217AFF"}}
+										className="avatar-style"
 									/>
 								</Tooltip>
 							)
@@ -384,9 +387,9 @@ const Characters = () => {
 				type="text"
 				value={searchString}
 				onChange={(e) => setSearchString(e.target.value)}
-				placeholder="search by name here.."
+				placeholder="Search by name here.."
 				prefix={<SearchOutlined />}
-				style={{ width: "30%", borderRadius: "5px",scale:"1.2",margin:"20px" }}
+				className="search-input"
 			/>
 			<div style={{ padding: "20px" }}>
 				{tagsData.map((tag) => (
@@ -394,11 +397,7 @@ const Characters = () => {
 						key={tag}
 						checked={selectedTags.indexOf(tag) > -1}
 						onChange={(checked) => handleChange(tag, checked)}
-						style={{
-							fontSize: "16px",
-							border: "solid",
-							borderRadius: "15px",
-						}}
+						className="checkable-tag"
 					>
 						{tag}
 					</CheckableTag>
@@ -408,7 +407,7 @@ const Characters = () => {
 						setSelectedTags([""]);
 						setSearchedArray(datasource);
 					}}
-					style={{ border: "none" }}
+					className="button-style"
 				>
 					<u>Clear all</u>
 				</Button>
