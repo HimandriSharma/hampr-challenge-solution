@@ -7,3 +7,4 @@
 3. As I had static data in the APP I used hooks but for complex state management Redux can be incorporated.
 4. If required more components can be distributed on the charater page into files to increase readability.
 5. We can add error fallback pages for random link visit by user.
+6. Incorporate ESLint and prettier to maintain consistent code on everyone's machine.
