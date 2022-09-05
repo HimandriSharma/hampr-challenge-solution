@@ -1,5 +1,6 @@
 # Hampr Frontend Challenge
 
+### `Go to IMPROVEMENTS.md for reading.`
 ## Prerequisites
 
 1. [Git](https://git-scm.com/) should be installed and used to clone this repository

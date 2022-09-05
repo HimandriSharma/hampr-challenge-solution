@@ -1,6 +1,6 @@
 # Hampr Frontend Challenge
 
-### improvements that can be done in the application : 
+### Improvements that can be done in the application : 
 
 1. Styling is not very accurate as per the designs by working on more customizations it can be made exactly same.
 2. At few plaes TypeScript inferred any types which can further be worked upon and improved.
