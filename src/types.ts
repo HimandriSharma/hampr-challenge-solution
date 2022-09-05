@@ -20,3 +20,15 @@ export interface Character {
   abilities: CharacterAbility[]
   tags: CharacterTag[]
 }
+
+export interface Data{
+  key: string;
+  name: string;
+  power: number;
+  mobility: number;
+  technique: number;
+  survivability: number;
+  energy: number;
+  avatar: string;
+  tags: CharacterTag[];
+}

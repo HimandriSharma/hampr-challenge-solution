@@ -13,12 +13,13 @@ import {
 	JSXElementConstructor,
 	ReactElement,
 	ReactFragment,
+	SetStateAction,
 	useEffect,
 	useState,
 } from "react";
 import { v4 as uuid } from "uuid";
 import jsonData from "../data/characters.json";
-import type { Character, CharacterAbility, CharacterTag } from "../types";
+import type { Character, CharacterAbility, CharacterTag, Data } from "../types";
 import "../App.css";
 import { SearchOutlined } from "@ant-design/icons";
 const data: Character[] = jsonData as Character[];
@@ -64,7 +65,7 @@ const Characters = () => {
 	}));
 
 	const [selectedRow, setSelectedRow] = useState([]);
-	const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+	const [selectedRowKeys, setSelectedRowKeys] =useState<string[]>();
 	const [searchedArray, setSearchedArray] = useState(datasource);
 	const [searchString, setSearchString] = useState("");
 	const [selectedTags, setSelectedTags] = useState([""]);
@@ -80,7 +81,7 @@ const Characters = () => {
 		if (searchString.length === 0) {
 			setSearchedArray(datasource);
 		} else {
-			const searchedObjects: any[] = [];
+			const searchedObjects: Data[] = [];
 			datasource.forEach((singleDataObject) => {
 				Object.values(singleDataObject).every((onlyValues: any) => {
 					if (onlyValues.toLowerCase().includes(searchString.toLowerCase())) {
@@ -100,7 +101,7 @@ const Characters = () => {
 			let technique = 0;
 			let survivability = 0;
 			let energy = 0;
-			selectedRow.map((val: any) => {
+			selectedRow.map((val: Data) => {
 				power += val.power;
 				mobility += val.mobility;
 				technique += val.technique;
@@ -133,14 +134,13 @@ const Characters = () => {
 		if (selectedTags.includes("my team")) {
 			setSearchedArray(selectedRow);
 		}
-
-		datasource.forEach((singleDataObject) => {
+		datasource.forEach((singleDataObject: Data) => {
 			if (selectedTags.length > 1) {
 				Object.values(singleDataObject).every(() => {
-					let filtered = singleDataObject.tags?.filter((val) => {
+					let filtered = singleDataObject.tags?.filter((val: CharacterTag) => {
 						return (
 							(selectedTags.includes("my team") &&
-								selectedRowKeys.includes(singleDataObject.key)) ||
+								selectedRowKeys?.includes(singleDataObject.key)) ||
 							selectedTags.indexOf(val.tag_name) !== -1
 						);
 					});
@@ -157,7 +157,7 @@ const Characters = () => {
 		{
 			dataIndex: "avatar",
 			key: uuid(),
-			render: (a: any) => {
+			render: (a: string) => {
 				return <Avatar size={34} src={a} className="avatar-style" />;
 			},
 		},
@@ -170,7 +170,7 @@ const Characters = () => {
 			title: "Tags",
 			dataIndex: "tags",
 			key: uuid(),
-			render: (tags: any[]) => {
+			render: (tags: []) => {
 				return (
 					tags &&
 					tags.map((tag: any) => (
@@ -296,7 +296,7 @@ const Characters = () => {
 		setSelectedTags(nextSelectedTags);
 	};
 
-	const onSelectChange = (newSelectedRowKeys: any, selectedRows: any) => {
+	const onSelectChange = (newSelectedRowKeys: any, selectedRows: any ) => {
 		setSelectedRowKeys(newSelectedRowKeys);
 		setSelectedRow(selectedRows);
 	};
@@ -312,10 +312,10 @@ const Characters = () => {
 	};
 
 	const handleRemove = (key: string) => {
-		let temp = selectedRow.filter(function (obj: any) {
+		let temp = selectedRow.filter(function (obj: Data) {
 			return obj.key !== key;
 		});
-		let keys = selectedRowKeys.filter(function (obj: any) {
+		let keys = selectedRowKeys?.filter(function (obj: string) {
 			return obj !== key;
 		});
 		setSelectedRowKeys(keys);
@@ -330,7 +330,7 @@ const Characters = () => {
 		>
 			<div>
 				{avg.power !== -1 &&
-					selectedRow.map((v: any, idx) => {
+					selectedRow.map((v: Data, idx) => {
 						return (
 							idx < 6 && (
 								<Tooltip title="Remove" key={v.key}>
