@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.9a98ab67.css",
+    "main.js": "/static/js/main.e5c67386.js",
+    "static/js/787.a69a85fe.chunk.js": "/static/js/787.a69a85fe.chunk.js",
+    "static/media/Mortal-Kombat-Logo.png": "/static/media/Mortal-Kombat-Logo.29f8ae525bb330542614.png",
+    "index.html": "/index.html",
+    "main.9a98ab67.css.map": "/static/css/main.9a98ab67.css.map",
+    "main.e5c67386.js.map": "/static/js/main.e5c67386.js.map",
+    "787.a69a85fe.chunk.js.map": "/static/js/787.a69a85fe.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9a98ab67.css",
+    "static/js/main.e5c67386.js"
+  ]
+}
