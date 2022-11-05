@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.9a98ab67.css",
-    "main.js": "/static/js/main.e5c67386.js",
-    "static/js/787.a69a85fe.chunk.js": "/static/js/787.a69a85fe.chunk.js",
-    "static/media/Mortal-Kombat-Logo.png": "/static/media/Mortal-Kombat-Logo.29f8ae525bb330542614.png",
-    "index.html": "/index.html",
-    "main.9a98ab67.css.map": "/static/css/main.9a98ab67.css.map",
-    "main.e5c67386.js.map": "/static/js/main.e5c67386.js.map",
-    "787.a69a85fe.chunk.js.map": "/static/js/787.a69a85fe.chunk.js.map"
+    "main.css": "/frontend-game/static/css/main.9a98ab67.css",
+    "main.js": "/frontend-game/static/js/main.0f00c2c5.js",
+    "static/js/787.a69a85fe.chunk.js": "/frontend-game/static/js/787.a69a85fe.chunk.js",
+    "static/media/Mortal-Kombat-Logo.png": "/frontend-game/static/media/Mortal-Kombat-Logo.29f8ae525bb330542614.png",
+    "index.html": "/frontend-game/index.html",
+    "main.9a98ab67.css.map": "/frontend-game/static/css/main.9a98ab67.css.map",
+    "main.0f00c2c5.js.map": "/frontend-game/static/js/main.0f00c2c5.js.map",
+    "787.a69a85fe.chunk.js.map": "/frontend-game/static/js/787.a69a85fe.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.9a98ab67.css",
-    "static/js/main.e5c67386.js"
+    "static/js/main.0f00c2c5.js"
   ]
 }
