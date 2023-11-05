@@ -2,7 +2,7 @@
 	"name": "frontend-game",
 	"version": "0.1.0",
 	"private": true,
-  "homepage": "https://himandrisharma.github.io/hampr-challenge-solution",
+	"homepage": "https://himandrisharma.github.io/hampr-challenge-solution",
 	"dependencies": {
 		"@ant-design/icons": "^4.7.0",
 		"@emotion/react": "^11.9.3",
